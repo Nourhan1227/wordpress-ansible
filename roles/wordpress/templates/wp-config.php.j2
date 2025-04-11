@@ -1,7 +1,7 @@
 <?php
 define( 'DB_NAME', 'wordpress' );
 define( 'DB_USER','wp_user' );
-define( 'DB_PASSWORD', 'wp_pass' );
+define( 'DB_PASSWORD', 'StrongPassword' );
 define( 'DB_HOST', 'localhost' );
 $table_prefix = 'wp_';
 define("WB_DEBUG", false);
@@ -10,3 +10,5 @@ if ( !defined('ABSPATH') )
     define('ABSPATH', dirname(FILE) . '/');
 
 require_once(ABSPATH . 'wp-settings.php');
+
+

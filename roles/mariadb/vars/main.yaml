@@ -1,0 +1,6 @@
+db_root_password: "StrongRootPassword"
+wp_db_name: "wordpress"
+wp_db_user: "wp_user"
+wp_db_password: "StrongPassword!"
+
+
