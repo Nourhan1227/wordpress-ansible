@@ -21,6 +21,15 @@
     name: wordpress
     state: present
 
+
+# - name: Secure MariaDB installation
+#   ansible.builtin.command: >
+#    sudo mysql -u root -e "CREATE DATABASE wordpress;
+#    CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'StrongPassword!';
+#    GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
+#    FLUSH PRIVILEGES;"
+
+    
 - name: Create WordPress DB user
   mysql_user:
     name: wp_user
