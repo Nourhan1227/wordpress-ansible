@@ -1,0 +1,17 @@
+---
+- name: Install PHP and required extensions
+  apt:
+    name:
+      - php
+      - php-mysql
+      - php-cli
+      - php-curl
+      - php-gd
+      - php-mbstring
+      - php-xml
+      - php-xmlrpc
+      - php-soap
+      - php-intl
+      - php-zip
+    state: present
+    update_cache: yes

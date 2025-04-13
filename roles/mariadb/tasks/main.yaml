@@ -1,0 +1,58 @@
+---
+- name: Install MariaDB
+  apt:
+    name: mariadb-server
+    state: present
+    update_cache: yes
+
+- name: Ensure MariaDB is started and enabled
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Install python3-pymysql for Ansible mysql modules
+  apt:
+    name: python3-pymysql
+    state: present
+
+
+- name: Secure MariaDB installation
+  ansible.builtin.command: >
+    mysql -u root -p{{ db_root_password }} -e "
+    ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ db_root_password }}';
+    DELETE FROM mysql.user WHERE User='';
+    DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+    DROP DATABASE IF EXISTS test;
+    FLUSH PRIVILEGES;"
+  changed_when: false
+
+- name: Creating the needed DB in MariaDB
+  ansible.builtin.shell: |
+    mysql -u root -p{{ db_root_password }} -e "CREATE DATABASE {{ wp_db_name }};"
+    mysql -u root -p{{ db_root_password }} -e "CREATE USER '{{ wp_db_user }}'@'localhost' IDENTIFIED BY '{{ wp_db_password }}';"
+    mysql -u root -p{{ db_root_password }} -e "GRANT ALL PRIVILEGES ON {{ wp_db_name }}.* TO '{{ wp_db_user }}'@'localhost';"
+    mysql -u root -p{{ db_root_password }} -e "FLUSH PRIVILEGES;"
+  args:
+    executable: /bin/bash
+  changed_when: false
+# - name: Create WordPress database
+#   mysql_db:
+#     name: wordpress
+#     state: present
+
+
+# - name: Secure MariaDB installation
+#   ansible.builtin.command: >
+#    sudo mysql -u root -e "CREATE DATABASE wordpress;
+#    CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'StrongPassword!';
+#    GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
+#    FLUSH PRIVILEGES;"
+
+    
+# - name: Create WordPress DB user
+#   mysql_user:
+#     name: wp_user
+#     password: wp_pass
+#     priv: 'wordpress.*:ALL'
+#     state: present
