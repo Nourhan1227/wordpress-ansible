@@ -1,9 +1,0 @@
----
-- name: Deploy WordPress on Ubuntu
-  hosts: web
-  become: yes
-  roles:
-    - mariadb
-    - php
-    - apache
-    - wordpress
